@@ -9,8 +9,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SelectBlindsIntervalComponent from './SelectBlindsIntervalComponent/SelectBlindsIntervalComponent';
-import PreviewBlindsStructureComponent from './PreviewBlindsStructureComponent/PreviewBlindsStructureComponent';
+import SelectBlindsIntervalComponent from './src/select-blinds-Interval/controller/SelectBlindsIntervalComponent';
+import PreviewBlindsStructureComponent from './src/preview-blinds-structure/controller/PreviewBlindsStructureComponent';
 
 const Stack = createStackNavigator();
 

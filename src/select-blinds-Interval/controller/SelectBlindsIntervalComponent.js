@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { styles } from '../styles';
-import NavigationButton from '../NavigationButton';
-import BlindsEnableFlipComponent from './BlindsEnableFlipComponent';
-import BlindsIntervalSliderComponent from './BlindsIntervalSliderComponent';
+import { styles } from '../../../styles';
+import NavigationButton from '../../../NavigationButton';
+import BlindsEnableFlip from '../view/BlindsEnableFlip';
+import BlindsIntervalSlider from '../view/BlindsIntervalSlider';
 
 function SelectBlindsIntervalComponent({ navigation }) {
     const [raiseBlindInterval, setRaiseBlindInterval] = useState(3);
@@ -13,7 +13,7 @@ function SelectBlindsIntervalComponent({ navigation }) {
     const [MinimumValue] = useState(3);
     const [MaximumValue] = useState(7);
     const [ValueIncrements] = useState(2);
- 
+
     const data = {
       interval: raiseBlindInterval,
       flipState: isRaiseBlind,
@@ -53,12 +53,12 @@ function SelectBlindsIntervalComponent({ navigation }) {
     return (
       <View style={styles.home}>
         <View style={styles.sliderBox}>
-          <BlindsEnableFlipComponent {...BlindsFlipProps} />
-            <BlindsIntervalSliderComponent {...BlindsSliderProps} />
+          <BlindsEnableFlip {...BlindsFlipProps} />
+            <BlindsIntervalSlider {...BlindsSliderProps} />
           <NavigationButton {...NavigationButtonProps} />
         </View>
       </View>
     );
-  }  
+  }
 
   export default SelectBlindsIntervalComponent;

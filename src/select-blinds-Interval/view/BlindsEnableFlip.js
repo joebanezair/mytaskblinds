@@ -1,9 +1,9 @@
 import { View, Text, Switch } from 'react-native';
 import React from 'react';
-import { styles } from '../styles';
+import { styles } from '../../../styles';
 import { useState } from 'react';
 
-const BlindsEnableFlipComponent = (props) => {
+const BlindsEnableFlip = (props) => {
 
     const FlipHandler = () => {
       props.handleFlipChange();
@@ -15,7 +15,7 @@ const BlindsEnableFlipComponent = (props) => {
               <Text style={styles.switchText}>Blind Level Length</Text>
             </View>
             <View style={styles.switchContent}>
-              <Switch 
+              <Switch
                 onValueChange={FlipHandler}
                 value={props.flipState}
 		            trackColor={{ true: "#44CCEE" }}
@@ -25,4 +25,4 @@ const BlindsEnableFlipComponent = (props) => {
     )
 }
 
-export default BlindsEnableFlipComponent;
+export default BlindsEnableFlip;

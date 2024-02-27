@@ -1,17 +1,17 @@
 
 import { Slider, Text, View} from 'react-native';
 import React, { useState } from 'react';
-import { styles } from '../styles';
-import CreateSliderStepNumbers from './Logic/CreateSliderStepNumbers';
+import { styles } from '../../../styles';
+import CreateSliderStepNumbers from '../model/CreateSliderStepNumbers';
 
-const BlindsIntervalSliderComponent = (props) => {
+const BlindsIntervalSlider = (props) => {
 
     const sliderStepsProps = {
         timeStart: props.MinimumValue,
         timeStep: props.ValueIncrements,
         timeNumberOfSteps: ((props.MaximumValue - props.MinimumValue) / props.ValueIncrements) + 1,
     }
-    const LengthsList = CreateSliderStepNumbers(sliderStepsProps) 
+    const LengthsList = CreateSliderStepNumbers(sliderStepsProps)
 
     const SliderHandler = (newValue) => {
         props.handleSliderChange(newValue);
@@ -38,4 +38,4 @@ const BlindsIntervalSliderComponent = (props) => {
     )
 }
 
-export default BlindsIntervalSliderComponent;
+export default BlindsIntervalSlider;

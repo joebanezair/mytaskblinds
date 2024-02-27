@@ -1,11 +1,11 @@
 
 import { View } from "react-native";
 import React from 'react';
-import DynamicTable from "../DynamicTable/DynamicTable";
-import CreateBlindStructureList from "./Logic/CreateBlindsStructureList";
+import BlindsStructureList from "../view/BlindsStructureList";
+import CreateBlindStructureList from "../model/CreateBlindsStructureList";
 
 function PreviewBlindsStructureComponent( {route, navigation} ) {
-    
+
     const props = route.params.data;
     const data = {
       duration: { minute: props.interval, second: 0 },
@@ -17,7 +17,7 @@ function PreviewBlindsStructureComponent( {route, navigation} ) {
 
     return (
       <View>
-        <DynamicTable data={list} />
+        <BlindsStructureList data={list} />
       </View>
     );
   }

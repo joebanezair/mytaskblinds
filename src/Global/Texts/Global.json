@@ -1,0 +1,10 @@
+{
+    "onPressComponents":{
+        "blinds":"Goto Blinds",
+        "button":"Some BTN"
+    },
+    "headerText":{
+        "headerMainPage":"Select Level",
+        "bs":"Blind Structure"
+    }
+}

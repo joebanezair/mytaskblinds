@@ -9,18 +9,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SelectBlindsIntervalComponent from './src/select-blinds-Interval/controller/SelectBlindsIntervalComponent';
-import PreviewBlindsStructureComponent from './src/preview-blinds-structure/controller/PreviewBlindsStructureComponent';
+import MainPage from './src/Main/Main/MainPage';
+import BlindsView from './src/Blinds/View/BlindsView';
 
 const Stack = createStackNavigator();
-
 
 const ParentComponent = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={SelectBlindsIntervalComponent} options={{ title: 'Home' }}/>
-        <Stack.Screen name="PreviewBlindsStructure" component={PreviewBlindsStructureComponent} options={{ title: 'Preview Blinds Structure' }}/>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name='Home' component={MainPage} options={{title: "Main Page", headerShown: false}} /> 
+        <Stack.Screen name='View' component={BlindsView} options={{title:"Blinds", headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

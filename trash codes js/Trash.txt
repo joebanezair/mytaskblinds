@@ -1,0 +1,731 @@
+import React from 'react';
+import { View, Text, Slider, Alert } from 'react-native';
+import MainModel from '../Controller/MainModel';
+import TouchableNavigators from '../../Navigators/Touchable Navigators/TouchableNavigators';
+import jsontext from '../../Global/Texts/Global.json'
+import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+import RegularBlinds from '../../Navigators/My Icons/RegularBlinds';
+
+const MainPage = ({navigation}) => {
+  const { 
+    duration, 
+    timeLeft, 
+    timerActive, 
+    handleSliderChange, 
+    handleStartTimer 
+  } = MainModel();
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  const time = `${duration}:00 - ${formattedTime}`;
+
+  const touchableProperties = {
+    press: ()=>{
+      navigation.navigate("View", {time: duration});
+    },
+    // press: handleStartTimer,
+    label: jsontext.onPressComponents.blinds,
+    icon: 'archive',
+    color: '#fff'
+  };
+
+  const propertiesIcon = {
+     name: 'gamepad-variant-outline', 
+     color: 'black',
+     size: 200
+  };
+  return (<>
+   <View style={{backgroundColor:'white'}}>
+      <View style={{
+        backgroundColor:'white',
+        alignSelf: 'center',
+        padding: 15
+      }}>
+        <RegularBlinds {...propertiesIcon}/>
+      </View>
+      <View style={GlobalDesigns.mainBody}>
+        <Slider
+          minimumValue={3}
+          maximumValue={7}
+          step={2}
+          value={duration}
+          minimumTrackTintColor={"#000"}
+          thumbTintColor={"#000"}
+          onValueChange={handleSliderChange}
+        />
+        <Text style={GlobalDesigns.textSlider}>{time}</Text>
+        <TouchableNavigators {...touchableProperties} />
+      </View>
+   </View>
+  </>);
+}
+
+export default MainPage;
+
+
+import { View, Text, TouchableOpacity, Slider, Button, Alert } from 'react-native'
+import React from 'react'
+import ViewMainPage from '../View/ViewMainPage'
+import TouchableNavigators from '../../Navigators/Touchable Navigators/TouchableNavigators'
+import jsontext from '../../Global/Texts/Global.json'
+import GlobalDesigns from '../../Global/Design/GlobalDesigns'
+import { useState, useEffect } from 'react'
+
+const MainPage = ({navigation}) => {
+  
+ 
+  return (<>
+    <View style={GlobalDesigns.mainBody}>
+     <ViewMainPage/>
+      <View>
+       <Zlider />
+      </View>
+    </View>
+  </>)
+}
+
+const Zlider =()=> {
+  const [duration, setDuration] = useState(3);
+  // const handleSliderChange = (value) => {
+  //   setDuration(value);
+  // };
+  // const handleStartTimer = () => {
+  //   Alert.alert(`Starting ${duration} minute timer`);
+  // };
+  // const time = duration + " minutes";
+  const gotoBlinds =()=>{
+    navigation.navigate("Blinds");
+  }
+
+  // const touchableProperties = {
+  //   press: handleStartTimer,
+  //   label: jsontext.onPressComponents.blinds,
+  //   icon: 'account-cowboy-hat',
+  //   color:'#fff'
+  // }
+
+  //
+  const [timeLeft, setTimeLeft] = useState(duration * 60);
+  const [timerActive, setTimerActive] = useState(false);
+
+  const handleSliderChange = (value) => {
+    setDuration(value);
+    setTimeLeft(value * 60);
+  };
+
+  const handleStartTimer = () => {
+    setTimerActive(true);
+  };
+
+  const touchableProperties = {
+    press: handleStartTimer,
+    label: jsontext.onPressComponents.blinds,
+    icon: 'account-cowboy-hat',
+    color:'#fff'
+  }
+
+  useEffect(() => {
+    let intervalId;
+    if (timerActive) {
+      intervalId = setInterval(() => {
+        setTimeLeft(prevTime => prevTime - 1);
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [timerActive]);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setTimerActive(false);
+      Alert.alert("Timer finished!");
+    }
+  }, [timeLeft]);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  const time = duration + " minutes " + formattedTime;
+
+  return (
+    <View>
+      <Slider
+        minimumValue={3}
+        maximumValue={7}
+        step={2}
+        value={duration}
+        minimumTrackTintColor={"#000"}
+        thumbTintColor={"#000"}
+        onValueChange={handleSliderChange}/>
+      <Text style={GlobalDesigns.textSlider}>{time}</Text>
+      <View>
+        <TouchableNavigators {...touchableProperties} />
+      </View>
+    </View>
+  );
+}
+
+export default MainPage
+
+
+
+// import { View, Text } from 'react-native'
+// import React from 'react'
+
+// const MainModel = () => {
+//   return (
+//     <View>
+//       <Text>MainModel</Text>
+//     </View>
+//   )
+// }
+
+// export default MainModel
+
+
+
+
+
+
+
+import { View, Text, TouchableOpacity, Slider, Button, Alert } from 'react-native'
+import React from 'react'
+import ViewMainPage from '../View/ViewMainPage'
+import TouchableNavigators from '../../Navigators/Touchable Navigators/TouchableNavigators'
+import jsontext from '../../Global/Texts/Global.json'
+import GlobalDesigns from '../../Global/Design/GlobalDesigns'
+import { useState, useEffect } from 'react'
+
+const MainPage = () => {
+  
+ 
+  return (<>
+    <View style={GlobalDesigns.mainBody}>
+     <ViewMainPage/>
+      <View>
+       <Zlider />
+      </View>
+    </View>
+  </>)
+}
+
+const Zlider =({navigation})=> {
+  const [duration, setDuration] = useState(3);
+  
+  // unused function
+  const gotoBlinds =()=>{
+    navigation.navigate("Blinds");
+  }
+  const [timeLeft, setTimeLeft] = useState(duration * 60);
+  const [timerActive, setTimerActive] = useState(false);
+
+  const handleSliderChange = (value) => {
+    setDuration(value);
+    setTimeLeft(value * 60);
+  };
+
+  const handleStartTimer = () => {
+    setTimerActive(true);
+  };
+
+  const touchableProperties = {
+    press: gotoBlinds,
+    label: jsontext.onPressComponents.blinds,
+    icon: 'account-cowboy-hat',
+    color:'#fff'
+  }
+
+  useEffect(() => {
+    let intervalId;
+    if (timerActive) {
+      intervalId = setInterval(() => {
+        setTimeLeft(prevTime => prevTime - 1);
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [timerActive]);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setTimerActive(false);
+      Alert.alert("Timer finished!");
+    }
+  }, [timeLeft]);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  const time = duration + " minutes " + formattedTime;
+
+  return (
+    <View>
+      <Slider
+        minimumValue={3}
+        maximumValue={7}
+        step={2}
+        value={duration}
+        minimumTrackTintColor={"#000"}
+        thumbTintColor={"#000"}
+        onValueChange={handleSliderChange}/>
+      <Text style={GlobalDesigns.textSlider}>{time}</Text>
+      <View>
+        <TouchableNavigators {...touchableProperties} />
+      </View>
+    </View>
+  );
+}
+
+export default MainPage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, Slider, Alert, Button } from 'react-native';
+import TouchableNavigators from '../../Navigators/Touchable Navigators/TouchableNavigators';
+import jsontext from '../../Global/Texts/Global.json';
+import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+import ViewMainPage from '../View/ViewMainPage';
+
+const MainPage = ({ navigation }) => {
+  const [duration, setDuration] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(duration * 60);
+  const [timerActive, setTimerActive] = useState(false);
+
+  const handleSliderChange = (value) => {
+    setDuration(value);
+    setTimeLeft(value * 60);
+    setTimerActive(false); // Stop the timer when slider is changed
+  };
+
+  const handleStartTimer = () => {
+    setTimerActive(true); // Start the timer when the button is pressed
+  };
+
+  useEffect(() => {
+    let intervalId;
+    if (timerActive) {
+      intervalId = setInterval(() => {
+        setTimeLeft(prevTime => {
+          if (prevTime === 0) {
+            setTimerActive(false);
+            clearInterval(intervalId);
+            Alert.alert("Timer finished!");
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [timerActive]);
+
+  useEffect(() => {
+    setTimeLeft(duration * 60);
+  }, [duration]);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  const time = `${duration} minutes ${formattedTime}`;
+
+  const touchableProperties = {
+    press: handleStartTimer,
+    label: jsontext.onPressComponents.blinds,
+    icon: 'account-cowboy-hat',
+    color: '#fff'
+  };
+
+  return (
+    <View style={GlobalDesigns.mainBody}>
+      <ViewMainPage />
+      <View>
+        <Slider
+          minimumValue={3}
+          maximumValue={7}
+          step={2}
+          value={duration}
+          minimumTrackTintColor={"#000"}
+          thumbTintColor={"#000"}
+          onValueChange={handleSliderChange}
+        />
+        <Text style={GlobalDesigns.textSlider}>{time}</Text>
+        <View>
+          <TouchableNavigators {...touchableProperties} />
+        </View>
+      </View>
+    </View>
+  );
+}
+
+export default MainPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
+import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+import MainModel from '../../Main/Controller/MainModel';
+
+const MyBlinds = () => {
+  const renderItem = ({ item }) => {
+    return (
+      <View  style={GlobalDesigns.headerDataTable}>
+        <Text style={{ flex: 1 }}>{item.name}</Text>
+        <Text style={{ flex: 1 }}>{item.age}</Text>
+        <Text style={{ flex: 1 }}>{item.blinds}</Text>
+      </View>
+    );
+  };
+
+  const header = () => (
+    <View style={GlobalDesigns.headerTable}>
+      <Text style={GlobalDesigns.regularTextTable}>Level</Text>
+      <Text style={GlobalDesigns.regularTextTable2}>Time</Text>
+      <Text style={GlobalDesigns.regularTextTable3}>Blinds</Text>
+    </View>
+  );
+
+  const data = [
+    { id: 1, name: 'John', age: 30, blinds: 'Vertical' },
+    { id: 2, name: 'Alice', age: 25, blinds: 'Roller' },
+    { id: 3, name: 'Bob', age: 35, blinds: 'Venetian' },
+
+    { id: 4, name: 'John', age: 30, blinds: 'Vertical' },
+    { id: 5, name: 'Alice', age: 25, blinds: 'Roller' },
+    { id: 6, name: 'Bob', age: 35, blinds: 'Venetian' },
+    // Add more data objects with respective properties including blinds
+  ];
+
+  return (
+    <>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={header}
+      />
+    </>
+  );
+};
+
+export default MyBlinds;
+
+
+
+
+
+{/* <View style={{backgroundColor:'white'}}>
+      <View style={{
+        backgroundColor:'white',
+        alignSelf: 'center',
+        padding: 15
+      }}>
+        <RegularBlinds {...propertiesIcon}/>
+      </View>
+      <View style={GlobalDesigns.mainBody}>
+        <Slider
+          minimumValue={3}
+          maximumValue={7}
+          step={2}
+          value={duration}
+          minimumTrackTintColor={"#000"}
+          thumbTintColor={"#000"}
+          onValueChange={handleSliderChange}
+        />
+        <Text style={GlobalDesigns.textSlider}>{time}</Text>
+        <TouchableNavigators {...touchableProperties} />
+      </View>
+   </View> */}
+
+
+   
+{/* <View style={GlobalDesigns.mainBody}>
+        <Slider
+          minimumValue={3}
+          maximumValue={7}
+          step={2}
+          value={duration}
+          minimumTrackTintColor={"#000"}
+          thumbTintColor={"#000"}
+          onValueChange={handleSliderChange}
+        />
+        <Text style={GlobalDesigns.textSlider}>{time}</Text>
+        <TouchableNavigators {...touchableProperties} />
+</View> */}
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+
+const MyBlinds = (properties) => {
+  const [data, setData] = useState([
+    { id: 1, name: 'John', age: 30, blinds: 'Vertical' },
+    { id: 2, name: 'Alice', age: 25, blinds: 'Roller' },
+    { id: 3, name: 'Bob', age: 35, blinds: 'Venetian' }
+  ]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      // Add new row every 3 minutes
+      const newDataItem = {
+        id: data.length + 1,
+        name: 'New Person',
+        age: 20,
+        blinds: 'New Blinds'
+      };
+      setData(prevData => [...prevData, newDataItem]);
+    }, 180000); // 3 minutes in milliseconds
+
+    return () => clearInterval(timer); // Cleanup on component unmount
+  }, [data]);
+
+  const renderItem = ({ item, index }) => {
+    const rowStyle = index % 2 === 0 ? GlobalDesigns.rowEven : GlobalDesigns.rowOdd;
+    return (
+      <View style={[GlobalDesigns.headerDataTable, rowStyle]}>
+        <Text style={GlobalDesigns.tabletext1}>{item.name}</Text>
+        <Text style={GlobalDesigns.tabletext2}>{item.age}</Text>
+        <Text style={GlobalDesigns.tabletext3}>{item.blinds}</Text>
+      </View>
+    );
+  };
+
+  const header = () => (
+    <View style={GlobalDesigns.headerTable}>
+      <Text style={GlobalDesigns.regularTextTable}>Level</Text>
+      <Text style={GlobalDesigns.regularTextTable2}>{properties.time} mins</Text>
+      <Text style={GlobalDesigns.regularTextTable3}>Blinds</Text>
+    </View>
+  );
+
+  return (
+    <>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={header}
+      />
+    </>
+  );
+};
+
+export default MyBlinds;
+
+
+// import React from 'react';
+// import { View, Text, FlatList } from 'react-native';
+// import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+
+// const MyBlinds = (properties) => {
+//   const renderItem = ({ item,  index  }) => {
+//     const rowStyle = index % 2 === 0 ? GlobalDesigns.rowEven : GlobalDesigns.rowOdd;
+//     return (
+//       <View  style={[GlobalDesigns.headerDataTable, rowStyle]}>
+//         <Text style={GlobalDesigns.tabletext1}>{item.name}</Text>
+//         <Text style={GlobalDesigns.tabletext2}>{item.age}</Text>
+//         <Text style={GlobalDesigns.tabletext3}>{item.blinds}</Text>
+//       </View>
+//     );
+//   };
+
+//   const header = () => (
+//     <View style={GlobalDesigns.headerTable}>
+//       <Text style={GlobalDesigns.regularTextTable}>Level</Text>
+//       <Text style={GlobalDesigns.regularTextTable2}>{properties.time} mins</Text>
+//       <Text style={GlobalDesigns.regularTextTable3}>Blinds</Text>
+//     </View>
+//   );
+
+//   const data = [
+//     { id: 1, name: 'John', age: 30, blinds: 'Vertical' },
+//     { id: 2, name: 'Alice', age: 25, blinds: 'Roller' },
+//     { id: 3, name: 'Bob', age: 35, blinds: 'Venetian' },
+
+//     { id: 4, name: 'John', age: 30, blinds: 'Vertical' },
+//     { id: 5, name: 'Alice', age: 25, blinds: 'Roller' },
+//     { id: 6, name: 'Bob', age: 35, blinds: 'Venetian' },
+
+//     // Add more data objects with respective properties including blinds
+//   ];
+
+//   return (
+//     <>
+//       <FlatList
+//         data={data}
+//         renderItem={renderItem}
+//         keyExtractor={(item) => item.id.toString()}
+//         ListHeaderComponent={header}
+//       />
+//     </>
+//   );
+// };
+
+// export default MyBlinds;
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, Button } from 'react-native';
+import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+
+const MyBlinds = (properties) => {
+  const [data, setData] = useState([
+    { id: 1, level: 1, time: '3:00', blinds: 1 },
+  ]);
+
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const [stopAdding, setStopAdding] = useState(false);
+
+  useEffect(() => {
+    if (!stopAdding) {
+      const interval = setInterval(() => {
+        // Increment current level and add new data
+        const newLevel = currentLevel + 1;
+        const newData = [
+          ...data,
+          { id: data.length + 1, level: newLevel, time: `${newLevel * 3}:00`, blinds: 1 },
+        ];
+        setData(newData);
+        setCurrentLevel(newLevel);
+      }, 60000); // 60000 milliseconds = 1 minute
+
+      // Cleanup function to clear the interval when component unmounts or stopAdding is true
+      return () => clearInterval(interval);
+    }
+  }, [data, stopAdding, currentLevel]); // Only re-run the effect if data, stopAdding, or currentLevel changes
+
+  const stopAddingData = () => {
+    setStopAdding(true);
+  };
+
+  const renderItem = ({ item, index }) => {
+    const rowStyle = index % 2 === 0 ? GlobalDesigns.rowEven : GlobalDesigns.rowOdd;
+    return (
+      <View style={[GlobalDesigns.headerDataTable, rowStyle]}>
+        <Text style={GlobalDesigns.tabletext1}>{item.level}</Text>
+        <Text style={GlobalDesigns.tabletext2}>{item.time}</Text>
+        <Text style={GlobalDesigns.tabletext3}>{item.blinds}</Text>
+      </View>
+    );
+  };
+
+  const header = () => (
+    <View style={GlobalDesigns.headerTable}>
+      <Text style={GlobalDesigns.regularTextTable}>Level</Text>
+      <Text style={GlobalDesigns.regularTextTable2}>{properties.time} mins</Text>
+      <Text style={GlobalDesigns.regularTextTable3}>Blinds</Text>
+    </View>
+  );
+
+  return (
+    <>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={header}
+      />
+      <Button title="Stop Adding Data" onPress={stopAddingData} />
+    </>
+  );
+};
+
+export default MyBlinds;
+
+
+// import React from 'react';
+// import { View, Text, FlatList } from 'react-native';
+// import GlobalDesigns from '../../Global/Design/GlobalDesigns';
+
+// const MyBlinds = (properties) => {
+//   const renderItem = ({ item,  index  }) => {
+//     const rowStyle = index % 2 === 0 ? GlobalDesigns.rowEven : GlobalDesigns.rowOdd;
+//     return (
+//       <View  style={[GlobalDesigns.headerDataTable, rowStyle]}>
+//         <Text style={GlobalDesigns.tabletext1}>{item.level}</Text>
+//         <Text style={GlobalDesigns.tabletext2}>{item.time}</Text>
+//         <Text style={GlobalDesigns.tabletext3}>{item.blinds}</Text>
+//       </View>
+//     );
+//   };
+
+//   const header = () => (
+//     <View style={GlobalDesigns.headerTable}>
+//       <Text style={GlobalDesigns.regularTextTable}>Level</Text>
+//       <Text style={GlobalDesigns.regularTextTable2}>{properties.time} mins</Text>
+//       <Text style={GlobalDesigns.regularTextTable3}>Blinds</Text>
+//     </View>
+//   );
+
+//   const data = [
+     
+//     {id: 1, level: 1, time: '3:00', blinds: 1},
+//     {id: 2, level: 2, time: '6:00', blinds: 1},
+//     {id: 3, level: 3, time: '9:00', blinds: 1},
+//     {id: 4, level: 4, time: '12:00', blinds: 1},
+
+//     // Add more data objects with respective properties including blinds
+//   ];
+
+//   return (
+//     <>
+//       <FlatList
+//         data={data}
+//         renderItem={renderItem}
+//         keyExtractor={(item) => item.id.toString()}
+//         ListHeaderComponent={header}
+//       />
+//     </>
+//   );
+// };
+
+// export default MyBlinds;
